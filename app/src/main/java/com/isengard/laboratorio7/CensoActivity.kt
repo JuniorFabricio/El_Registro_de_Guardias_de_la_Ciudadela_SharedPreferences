@@ -16,9 +16,9 @@ import androidx.core.view.WindowInsetsCompat
 class CensoActivity : AppCompatActivity()
 {
     private lateinit var adminSQLite: AdminSQLiteOpenHelper
-    private lateinit var etNombreBatallon: EditText
-    private lateinit var etSoldados: EditText
-    private lateinit var tvListadoCenso: TextView
+    private lateinit var nombreBatallon: EditText
+    private lateinit var etsoldados: EditText
+    private lateinit var listadoCensoTexto: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +32,9 @@ class CensoActivity : AppCompatActivity()
 
         adminSQLite = AdminSQLiteOpenHelper(this)
 
-        etNombreBatallon = findViewById(R.id.nombreBatallon)
-        etSoldados = findViewById(R.id.etSoldados)
-        tvListadoCenso = findViewById(R.id.listado)
+        nombreBatallon = findViewById(R.id.nombreBatallon)
+        etsoldados = findViewById(R.id.etSoldados)
+        listadoCensoTexto = findViewById(R.id.listado)
 
         val btnGuardar: Button = findViewById(R.id.btnGuardar)
         val btnBaja: Button = findViewById(R.id.btnBajaBatallon)
@@ -48,16 +48,16 @@ class CensoActivity : AppCompatActivity()
     }
 
     private fun registrarOActualizar() {
-        val nombre = etNombreBatallon.text.toString().trim()
-        val soldadosStr = etSoldados.text.toString().trim()
+        val nombre = nombreBatallon.text.toString().trim()
+        val soldadosStr = etsoldados.text.toString().trim()
 
         if (nombre.isEmpty()) {
-            etNombreBatallon.error = "Introduce el nombre del batallón"
+            nombreBatallon.error = "Introduce el nombre del batallón"
             return
         }
         val soldados = soldadosStr.toIntOrNull()
         if (soldados == null || soldados < 0) {
-            etSoldados.error = "Introduce una cantidad válida"
+            etsoldados.error = "Introduce una cantidad válida"
             return
         }
 
@@ -77,8 +77,8 @@ class CensoActivity : AppCompatActivity()
 
             if (id != -1L) {
                 Toast.makeText(this, "Batallón '$nombre' censado", Toast.LENGTH_SHORT).show()
-                etNombreBatallon.text.clear()
-                etSoldados.text.clear()
+                nombreBatallon.text.clear()
+                etsoldados.text.clear()
                 consultarCenso()
             }
         } finally {
@@ -87,9 +87,9 @@ class CensoActivity : AppCompatActivity()
     }
 
     private fun darDeBaja() {
-        val nombre = etNombreBatallon.text.toString().trim()
+        val nombre = nombreBatallon.text.toString().trim()
         if (nombre.isEmpty()) {
-            etNombreBatallon.error = "Escribe el nombre del batallón a licenciar"
+            nombreBatallon.error = "Escribe el nombre del batallón a licenciar"
             return
         }
 
@@ -103,8 +103,8 @@ class CensoActivity : AppCompatActivity()
 
             if (filasBorradas > 0) {
                 Toast.makeText(this, "Batallón '$nombre' dado de baja", Toast.LENGTH_SHORT).show()
-                etNombreBatallon.text.clear()
-                etSoldados.text.clear()
+                nombreBatallon.text.clear()
+                etsoldados.text.clear()
                 consultarCenso()
             } else {
                 Toast.makeText(this, "No existe ningún batallón con ese nombre", Toast.LENGTH_SHORT).show()
@@ -138,9 +138,9 @@ class CensoActivity : AppCompatActivity()
                     sb.append("• $nombre: $soldados efectivos\n")
                 } while (cursor.moveToNext())
 
-                tvListadoCenso.text = sb.toString()
+                listadoCensoTexto.text = sb.toString()
             } else {
-                tvListadoCenso.text = "No hay batallones desplegados."
+                listadoCensoTexto.text = "No hay batallones desplegados."
             }
         } finally {
             cursor?.close()
