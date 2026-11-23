@@ -38,8 +38,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btn: Button
     private lateinit var sharedPreferences: SharedPreferences
 
-    private lateinit var btnPergaminos: Button
     private lateinit var lectura: TextView
+    private lateinit var btnPergaminos: Button
+    private lateinit var btnCenso: Button
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +72,12 @@ class MainActivity : AppCompatActivity() {
 
         btn.setOnClickListener {
             guardarDatosTacticos()
+        }
+
+        btnCenso=findViewById(R.id.btnCenso)
+
+        btnCenso.setOnClickListener {
+            startActivity(android.content.Intent(this, CensoActivity::class.java))
         }
 
     }
